@@ -59,13 +59,34 @@ android {
             include "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
         }
     }
-    buildTypes {
-        release {
-            // Caution! In production, you need to generate your own keystore file.
-            // see https://facebook.github.io/react-native/docs/signed-apk-android.
+buildTypes {
+        debug {
+            applicationIdSuffix ".dev"
+        }
 
-            minifyEnabled false
+        release {
+            minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
+            applicationIdSuffix ".us"
+        }
+
+        releaseQa {
+            initWith(buildTypes.release)
+            matchingFallbacks = ['release']
+            minifyEnabled enableProguardInReleaseBuilds
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
+            applicationIdSuffix ".qa"
+        }
+
+        releaseDev {
+            initWith(buildTypes.release)
+            matchingFallbacks = ['release']
+            minifyEnabled enableProguardInReleaseBuilds
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
+            applicationIdSuffix ".dev"
         }
     }
     // applicationVariants are e.g. debug, release
